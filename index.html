@@ -11,7 +11,7 @@
       background-color: black;
       border-radius: 7px;
       color: #B560FF;
-      border: none;
+      border: none; /* Add a white border with 5px width */
       cursor: pointer;
       margin: 0.7em;
       font-weight: 700;
@@ -30,6 +30,29 @@
       /* Change the box shadow color */
       box-shadow: 0 0 15px grey;
     }
+    .fancyLink {
+    color: black; /* Set text color */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Add bold font weight */
+    transition: color 0.3s; /* Add transition effect for color change */
+
+    /* Additional styles for a more "fancy" look */
+    border-bottom: 2px solid #B560FF; /* Add a bottom border */
+    padding-bottom: 2px; /* Adjust padding for spacing */
+    margin: 2em;
+  }
+
+  /* Change link color on hover */
+  .fancyLink:hover {
+    color: #FF8C00; /* Change text color on hover */
+  }
+
+  /* Add styles for the "fancyImg" class */
+  .fancyImg {
+    border-radius: 7px; /* Add border-radius for a rounded appearance */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add box shadow for a subtle effect */
+    margin-top: 10px; /* Add margin to separate the image from the link */
+  }
 
     /* Add some style to the body */
     body {
@@ -59,53 +82,98 @@
 
 <script>
     function openAlbum() {
-      var num = Math.floor(Math.random() * 9999999) + 1;
-      var apiUrl = "https://api.deezer.com/album/" + num;
-  
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          // Check if the response contains the expected properties
-          if (data.id && data.title && data.link && data.cover_medium) {
-            if (document.getElementById('album-link')){
-              
-                document.getElementById('album-link').href = data.link;
-                document.getElementById('album-link').textContent = data.title; // Display the album title
-    
-                // Create an image element with the cover_medium image
-                document.getElementById('album-cover').src = data.cover_medium;
-                document.getElementById('album-cover').alt = data.title; // Use the album title as alt text
+        // Remove the genre-related elements from the DOM
+        removeAlbumElements();
 
-            }
-            else
-            {
-                // Create an anchor element with the album link
-                var albumLink = document.createElement("a");
-                albumLink.id = 'album-link'
-                albumLink.href = data.link;
-                albumLink.textContent = data.title; // Display the album title
-    
-                // Create an image element with the cover_medium image
-                var albumCover = document.createElement("img");
-                albumCover.id = 'album-cover'
-                albumCover.src = data.cover_medium;
-                albumCover.alt = data.title; // Use the album title as alt text
-    
-                // Append the elements to the body or any other container element
-                document.body.appendChild(albumLink);
-                document.body.appendChild(albumCover);
+        var num = Math.floor(Math.random() * 9999999) + 1;
+        var apiUrl = "https://api.deezer.com/album/" + num;
 
-            }
-        
-          } else {
-            // If the response is missing expected properties, retry
-            openAlbum();
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Check if the response contains the expected properties
+                if (data.id && data.title && data.link && data.cover_medium && data.genres && data.genres.data.length > 0) {
+
+                    // Create an anchor element with the album link
+                    var albumLink = document.createElement("a");
+                    albumLink.classList.add("fancyLink");
+                    albumLink.id = 'album-link';
+                    albumLink.href = data.link;
+                    albumLink.textContent = data.title; // Display the album title
+
+                    // Create an image element with the cover_medium image
+                    var albumCover = document.createElement("a"); // Change here: create an anchor element
+                    albumCover.href = data.link; // Change here: set the href attribute to the album URL
+                    albumCover.target = "_blank"; // Change here: open the link in a new tab/window
+                    var albumCoverImage = document.createElement("img");
+                    albumCoverImage.classList.add("fancyImg"); // Add the "fancyImg" class
+                    albumCoverImage.id = 'album-cover';
+                    albumCoverImage.src = data.cover_medium;
+                    albumCoverImage.alt = data.title; // Use the album title as alt text
+
+                    // Append the elements to the body or any other container element
+                    document.body.appendChild(albumCover);
+                    albumCover.appendChild(albumCoverImage); // Append the image to the anchor element
+                    document.body.appendChild(albumLink);
+
+                    // Display the genre information
+                    displayGenre(data.genres.data[0]);
+                } else {
+                    // If the response is missing expected properties, retry
+                    openAlbum();
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }  
+    function displayGenre(genreData) {
+        // Create a container div for genre information
+        var genreContainer = document.createElement("div");
+        genreContainer.id = 'genre-container'; // Add an ID for easy removal later
+        genreContainer.style.display = "flex";
+        genreContainer.style.flexDirection = "row";
+        genreContainer.style.alignItems = "center";
+
+        // Create an element to display the genre information
+        var genreElement = document.createElement("div");
+        genreElement.textContent = "Genre: " + genreData.name;
+        genreElement.style.color = "black"; // Set text color
+        genreElement.style.marginTop = "10px"; // Add margin to separate the genre information
+        genreElement.style.marginRight = "1em";
+
+        // Create an image element for the genre picture
+        var genrePicture = document.createElement("img");
+        genrePicture.src = genreData.picture;
+        genrePicture.alt = genreData.name; // Use the genre name as alt text
+        genrePicture.style.borderRadius = "7px"; // Add border-radius for a rounded appearance
+        genrePicture.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)"; // Add box shadow for a subtle effect
+        genrePicture.style.marginTop = "5px"; // Add margin to separate the genre picture
+
+        // Append the genre elements to the container
+        genreContainer.appendChild(genreElement);
+        genreContainer.appendChild(genrePicture);
+
+        // Append the container to the body or any other container element
+        document.body.appendChild(genreContainer);
     }
+
+    function removeAlbumElements() {
+        var albumLink = document.getElementById('album-link')
+        var albumCover = document.getElementById('album-cover')
+        var genreContainer = document.getElementById('genre-container');
+        if (albumLink){
+            albumLink.remove();
+        }
+        if (albumCover){
+            albumCover.remove()
+        }
+        if (genreContainer) {
+            genreContainer.remove();
+        }
+    }
+   
+
   </script>
   
 </body>
