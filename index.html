@@ -55,37 +55,41 @@
 
 
   <!-- Add a script tag that contains the javascript function -->
-  <script>
-    // Define a function that can open a random album on Deezer
+ <!-- Your existing HTML code remains unchanged -->
+
+<script>
     function openAlbum() {
-      // Generate a random number between 1 and 9999999
       var num = Math.floor(Math.random() * 9999999) + 1;
-
-      // Add the number to the base URL
-      var url = "https://www.deezer.com/fr/album/" + num;
-
-      // Create a new XMLHttpRequest object
-      var xhr = new XMLHttpRequest();
-
-      // Set the request method to GET and the request URL to the generated URL
-      xhr.open("GET", url);
-
-      // Set the onload event handler for the request
-      xhr.onload = function() {
-        // Check if the status code is 200 (OK)
-        if (xhr.status == 200) {
-          // If yes, open the URL in a new window
-          window.open(url);
-        } else {
-          // If not, call the function again to generate a new URL
-          openAlbum();
-        }
-      };
-
-      // Send the request
-      xhr.send();
+      var apiUrl = "https://api.deezer.com/album/" + num;
+  
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Check if the response contains the expected properties
+          if (data.id && data.title && data.link && data.cover_medium) {
+            // Create an anchor element with the album link
+            var albumLink = document.createElement("a");
+            albumLink.href = data.link;
+            albumLink.textContent = data.title; // Display the album title
+  
+            // Create an image element with the cover_medium image
+            var albumCover = document.createElement("img");
+            albumCover.src = data.cover_medium;
+            albumCover.alt = data.title; // Use the album title as alt text
+  
+            // Append the elements to the body or any other container element
+            document.body.appendChild(albumLink);
+            document.body.appendChild(albumCover);
+          } else {
+            // If the response is missing expected properties, retry
+            openAlbum();
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
     }
-
   </script>
+  
 </body>
 </html>
