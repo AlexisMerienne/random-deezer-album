@@ -82,51 +82,51 @@
 
 <script>
     function openAlbum() {
-        // Remove the genre-related elements from the DOM
+        // Remove the album-related elements from the DOM
         removeAlbumElements();
 
         var num = Math.floor(Math.random() * 9999999) + 1;
-        var apiUrl = "https://api.deezer.com/album/" + num;
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                // Check if the response contains the expected properties
-                if (data.id && data.title && data.link && data.cover_medium && data.genres && data.genres.data.length > 0) {
+        // Create a script element for JSONP
+        var script = document.createElement('script');
+        script.src = `https://api.deezer.com/album/${num}?output=jsonp&callback=jsonpCallback`;
+        document.head.appendChild(script);
+    }
 
-                    // Create an anchor element with the album link
-                    var albumLink = document.createElement("a");
-                    albumLink.classList.add("fancyLink");
-                    albumLink.id = 'album-link';
-                    albumLink.href = data.link;
-                    albumLink.textContent = data.title; // Display the album title
+    // Define the callback function for JSONP
+    function jsonpCallback(data) {
+        // Check if the response contains the expected properties
+        if (data.id && data.title && data.link && data.cover_medium && data.genres && data.genres.data.length > 0) {
+            // Create an anchor element with the album link
+            var albumLink = document.createElement("a");
+            albumLink.classList.add("fancyLink");
+            albumLink.id = 'album-link';
+            albumLink.href = data.link;
+            albumLink.textContent = data.title;
 
-                    // Create an image element with the cover_medium image
-                    var albumCover = document.createElement("a"); // Change here: create an anchor element
-                    albumCover.href = data.link; // Change here: set the href attribute to the album URL
-                    albumCover.target = "_blank"; // Change here: open the link in a new tab/window
-                    var albumCoverImage = document.createElement("img");
-                    albumCoverImage.classList.add("fancyImg"); // Add the "fancyImg" class
-                    albumCoverImage.id = 'album-cover';
-                    albumCoverImage.src = data.cover_medium;
-                    albumCoverImage.alt = data.title; // Use the album title as alt text
+            // Create an image element with the album image
+            var albumCover = document.createElement("a");
+            albumCover.href = data.link;
+            albumCover.target = "_blank";
+            var albumCoverImage = document.createElement("img");
+            albumCoverImage.classList.add("fancyImg");
+            albumCoverImage.id = 'album-cover';
+            albumCoverImage.src = data.cover_medium;
+            albumCoverImage.alt = data.title;
 
-                    // Append the elements to the body or any other container element
-                    document.body.appendChild(albumCover);
-                    albumCover.appendChild(albumCoverImage); // Append the image to the anchor element
-                    document.body.appendChild(albumLink);
+            // Append the elements to the body or any other container element
+            document.body.appendChild(albumCover);
+            albumCover.appendChild(albumCoverImage);
+            document.body.appendChild(albumLink);
 
-                    // Display the genre information
-                    displayGenre(data.genres.data[0]);
-                } else {
-                    // If the response is missing expected properties, retry
-                    openAlbum();
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }  
+            // Display the genre information
+            displayGenre(data.genres.data[0]);
+        } else {
+            // If the response is missing expected properties, retry
+            openAlbum();
+        }
+
+    }
     function displayGenre(genreData) {
         // Create a container div for genre information
         var genreContainer = document.createElement("div");
