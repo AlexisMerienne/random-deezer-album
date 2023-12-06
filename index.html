@@ -67,19 +67,36 @@
         .then(data => {
           // Check if the response contains the expected properties
           if (data.id && data.title && data.link && data.cover_medium) {
-            // Create an anchor element with the album link
-            var albumLink = document.createElement("a");
-            albumLink.href = data.link;
-            albumLink.textContent = data.title; // Display the album title
-  
-            // Create an image element with the cover_medium image
-            var albumCover = document.createElement("img");
-            albumCover.src = data.cover_medium;
-            albumCover.alt = data.title; // Use the album title as alt text
-  
-            // Append the elements to the body or any other container element
-            document.body.appendChild(albumLink);
-            document.body.appendChild(albumCover);
+            if (document.getElementById('album-link')){
+              
+                document.getElementById('album-link').href = data.link;
+                document.getElementById('album-link').textContent = data.title; // Display the album title
+    
+                // Create an image element with the cover_medium image
+                document.getElementById('album-cover').src = data.cover_medium;
+                document.getElementById('album-cover').alt = data.title; // Use the album title as alt text
+
+            }
+            else
+            {
+                // Create an anchor element with the album link
+                var albumLink = document.createElement("a");
+                albumLink.id = 'album-link'
+                albumLink.href = data.link;
+                albumLink.textContent = data.title; // Display the album title
+    
+                // Create an image element with the cover_medium image
+                var albumCover = document.createElement("img");
+                albumCover.id = 'album-cover'
+                albumCover.src = data.cover_medium;
+                albumCover.alt = data.title; // Use the album title as alt text
+    
+                // Append the elements to the body or any other container element
+                document.body.appendChild(albumLink);
+                document.body.appendChild(albumCover);
+
+            }
+        
           } else {
             // If the response is missing expected properties, retry
             openAlbum();
