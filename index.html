@@ -53,6 +53,17 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add box shadow for a subtle effect */
     margin-top: 10px; /* Add margin to separate the image from the link */
   }
+   .spotifyLink {
+      background-color: black;
+      color: #00FF00; /* Green font color for Spotify link */
+      border: none;
+    }
+
+    .fancyImg {
+      border-radius: 7px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      margin-top: 10px;
+    }
 
     /* Add some style to the body */
     body {
@@ -74,104 +85,121 @@
 </head>
 <body>
   <!-- Add a button with an onclick attribute that calls a javascript function -->
-  <button id="btn" onclick="openAlbum()">Discover a random album on Deezer</button>
+  <button id="btn" onclick="getRandomAlbum()">Discover a random album</button>
 
 
   <!-- Add a script tag that contains the javascript function -->
  <!-- Your existing HTML code remains unchanged -->
 
 <script>
-    function openAlbum() {
-        // Remove the album-related elements from the DOM
+    function getRandomAlbum() {
         removeAlbumElements();
+        // Make a CORS-compliant request to your API
+        fetch('https://music-album-randomizer-565fcb74639f.herokuapp.com/album', {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add any additional headers if needed
+          },
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);
+            }
+            return response.json();
+          })
+          .then(data => displayAlbum(data))
+          .catch(error => {
+            console.error('Error fetching random album:', error);
+            alert('Error fetching random album. Please try again.');
+          });
+      }
 
-        var num = Math.floor(Math.random() * 9999999) + 1;
-
-        // Create a script element for JSONP
-        var script = document.createElement('script');
-        script.src = `https://api.deezer.com/album/${num}?output=jsonp&callback=jsonpCallback`;
-        document.head.appendChild(script);
-    }
 
     // Define the callback function for JSONP
-    function jsonpCallback(data) {
-        // Check if the response contains the expected properties
-        if (data.id && data.title && data.link && data.cover_medium && data.genres && data.genres.data.length > 0) {
-            // Create an anchor element with the album link
-            var albumLink = document.createElement("a");
-            albumLink.classList.add("fancyLink");
-            albumLink.id = 'album-link';
-            albumLink.href = data.link;
-            albumLink.textContent = data.title;
+    function displayAlbum(albumInfo) {
+        // Remove existing album elements
+        
 
-            // Create an image element with the album image
-            var albumCover = document.createElement("a");
-            albumCover.href = data.link;
-            albumCover.target = "_blank";
-            var albumCoverImage = document.createElement("img");
-            albumCoverImage.classList.add("fancyImg");
-            albumCoverImage.id = 'album-cover';
-            albumCoverImage.src = data.cover_medium;
-            albumCoverImage.alt = data.title;
+        // Create an anchor element with the album link
+        var deezerAlbumLink = createButton("deezer-link","deezerLink", albumInfo.deezer_uri, "open on Deezer");
+        var spotifyAlbumLink = createButton("spotify-link","spotifyLink", albumInfo.spotify_uri, "open on Spotify");
+        
 
-            // Append the elements to the body or any other container element
-            document.body.appendChild(albumCover);
-            albumCover.appendChild(albumCoverImage);
-            document.body.appendChild(albumLink);
 
-            // Display the genre information
-            displayGenre(data.genres.data[0]);
-        } else {
-            // If the response is missing expected properties, retry
-            openAlbum();
-        }
+        // Create an image element with the album image
+        var albumCover = document.createElement("img");
+        albumCover.id = "album-cover";
+        albumCover.classList.add("fancyImg");
+        albumCover.src = albumInfo.cover_medium;
+        albumCover.alt = albumInfo.title;
 
-    }
-    function displayGenre(genreData) {
-        // Create a container div for genre information
-        var genreContainer = document.createElement("div");
-        genreContainer.id = 'genre-container'; // Add an ID for easy removal later
-        genreContainer.style.display = "flex";
-        genreContainer.style.flexDirection = "row";
-        genreContainer.style.alignItems = "center";
+        var albumTitle = document.createElement("h3");
+        albumTitle.id = "album-title";
+        albumTitle.textContent = albumInfo.title + " by " + albumInfo.artist_name;
 
-        // Create an element to display the genre information
-        var genreElement = document.createElement("div");
-        genreElement.textContent = "Genre: " + genreData.name;
-        genreElement.style.color = "black"; // Set text color
-        genreElement.style.marginTop = "10px"; // Add margin to separate the genre information
-        genreElement.style.marginRight = "1em";
+        // Append elements to the body
+        document.body.appendChild(deezerAlbumLink);
+        document.body.appendChild(spotifyAlbumLink);
+        document.body.appendChild(albumCover);
+        document.body.appendChild(albumTitle);
 
-        // Create an image element for the genre picture
-        var genrePicture = document.createElement("img");
-        genrePicture.src = genreData.picture;
-        genrePicture.alt = genreData.name; // Use the genre name as alt text
-        genrePicture.style.borderRadius = "7px"; // Add border-radius for a rounded appearance
-        genrePicture.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)"; // Add box shadow for a subtle effect
-        genrePicture.style.marginTop = "5px"; // Add margin to separate the genre picture
-
-        // Append the genre elements to the container
-        genreContainer.appendChild(genreElement);
-        genreContainer.appendChild(genrePicture);
-
-        // Append the container to the body or any other container element
-        document.body.appendChild(genreContainer);
-    }
+      }
+    function createButton(id,className, href, textContent) {
+          var button = document.createElement("a");
+          button.id = id;
+          button.classList.add("fancyLink");
+          button.classList.add(className);
+          button.href = href;
+          button.target = "_blank"; 
+          button.textContent = textContent;
+          setButtonStyle(button);
+          return button;
+      }
 
     function removeAlbumElements() {
-        var albumLink = document.getElementById('album-link')
+        var deezerAlbumLink = document.getElementById('deezer-link')
+        var spotifyAlbumLink = document.getElementById('spotify-link')
         var albumCover = document.getElementById('album-cover')
-        var genreContainer = document.getElementById('genre-container');
-        if (albumLink){
-            albumLink.remove();
+        var albumTitle = document.getElementById('album-title')
+        
+        if (deezerAlbumLink && spotifyAlbumLink){
+            deezerAlbumLink.remove()
+            spotifyAlbumLink.remove()
         }
         if (albumCover){
             albumCover.remove()
         }
-        if (genreContainer) {
-            genreContainer.remove();
+        if (albumTitle){
+            albumTitle.remove()
         }
     }
+    function setButtonStyle(button) {
+        // Set common button styles
+        button.style.fontSize = "20px";
+        button.style.padding = "10px";
+        button.style.borderRadius = "7px";
+        button.style.cursor = "pointer";
+        button.style.margin = "0.7em";
+        button.style.fontWeight = "700";
+        button.style.transition = "transform 0.3s, box-shadow 0.3s";
+        button.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+        button.style.textDecoration = "none";
+        button.style.display = "inline-block";
+        button.style.textAlign = "center";
+
+        // Set unique styles based on className
+        if (button.classList.contains("deezerLink")) {
+          button.style.backgroundColor = "black";
+          button.style.color = "#B560FF";
+          button.style.border = "none";
+        } else if (button.classList.contains("spotifyLink")) {
+          button.style.backgroundColor = "black";
+          button.style.color = "#00FF00"; // Green font color for Spotify link
+          button.style.border = "none";
+        }
+      }
    
 
   </script>
