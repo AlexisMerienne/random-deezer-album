@@ -5,7 +5,7 @@ import random
 app = Flask(__name__)
 
 DEEZER_SEARCH_API = "https://api.deezer.com/search"
-DEEZER_ALBUM_URI = "https://www.deezer.com/fr/album/"
+DEEZER_ALBUM_URI = "https://www.deezer.com/album/"
 
 
 def get_random_number():
@@ -23,7 +23,7 @@ def get_random_album():
         if data:
             random_track = random.choice(data)
             album_info = {
-                "deezer_uri": DEEZER_ALBUM_URI+random_track["album"]["id"],
+                "deezer_uri": DEEZER_ALBUM_URI+str(random_track["album"]["id"]),
                 "cover_medium": random_track["album"]["cover_medium"],
                 "title": random_track["album"]["title"],
                 "artist_name": random_track["artist"]["name"],
@@ -32,7 +32,7 @@ def get_random_album():
     return None
 
 
-@app.route("/random_album", methods=["GET"])
+@app.route("/album", methods=["GET"])
 def random_album():
     album_info = get_random_album()
 
