@@ -81,6 +81,20 @@
       flex-direction: column;
       height: 100vh;
     }
+     /* Media query for mobile devices */
+    @media screen and (max-width: 600px) {
+      #btn {
+        width: 100%; /* Make the button full-width */
+      }
+      .deezerLink {
+        width: 80%; /* Make the link full-width with some margin */
+        margin: 1em auto;
+      }
+      .spotifyLink {
+        width: 80%; /* Make the link full-width with some margin */
+        margin: 1em auto;
+      }
+    }
   </style>
 </head>
 <body>
@@ -163,7 +177,7 @@
         var spotifyAlbumLink = document.getElementById('spotify-link')
         var albumCover = document.getElementById('album-cover')
         var albumTitle = document.getElementById('album-title')
-        
+
         if (deezerAlbumLink && spotifyAlbumLink){
             deezerAlbumLink.remove()
             spotifyAlbumLink.remove()
