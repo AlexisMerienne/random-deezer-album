@@ -156,11 +156,16 @@
         albumTitle.id = "album-title";
         albumTitle.textContent = albumInfo.title + " by " + albumInfo.artist_name;
 
+        var albumGenre = document.createElement("h3");
+        albumGenre.id = "album-genre";
+        albumGenre.textContent = "<strong>Genre is : </strong>" + albumInfo.albumInfos.genre;
+
         // Append elements to the body
         document.body.appendChild(deezerAlbumLink);
         document.body.appendChild(spotifyAlbumLink);
         document.body.appendChild(albumCover);
         document.body.appendChild(albumTitle);
+        document.body.appendChild(albumGenre);
 
       }
     function createButton(id,className, href, textContent) {
@@ -175,22 +180,11 @@
           return button;
       }
 
-    function removeAlbumElements() {
-        var deezerAlbumLink = document.getElementById('deezer-link')
-        var spotifyAlbumLink = document.getElementById('spotify-link')
-        var albumCover = document.getElementById('album-cover')
-        var albumTitle = document.getElementById('album-title')
-
-        if (deezerAlbumLink && spotifyAlbumLink){
-            deezerAlbumLink.remove()
-            spotifyAlbumLink.remove()
-        }
-        if (albumCover){
-            albumCover.remove()
-        }
-        if (albumTitle){
-            albumTitle.remove()
-        }
+     function removeAlbumElements() {
+        ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre"].forEach(id => {
+          var element = document.getElementById(id);
+          if (element) element.remove();
+        });
     }
     function setButtonStyle(button) {
         // Set common button styles
