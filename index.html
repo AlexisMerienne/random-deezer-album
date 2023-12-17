@@ -93,6 +93,10 @@
         width: 80%; /* Make the link full-width with some margin */
         margin: 1em auto;
       }
+      #deezer-iframe {
+        width: 100%; /* Make the iframe full-width with some margin */
+        height: 200px;
+      }
     }
   </style>
 </head>
@@ -161,11 +165,10 @@
           + "&app_id=1' width='700' height='350'></iframe>");
 
         // Append elements to the body
+        
+        document.body.appendChild(deezerIFrame);
         document.body.appendChild(deezerAlbumLink);
         document.body.appendChild(spotifyAlbumLink);
-        document.body.appendChild(deezerIFrame);
-        document.body.appendChild(albumTitle);
-        document.body.appendChild(albumGenre);
 
       }
     function createButton(id,className, href, textContent) {
