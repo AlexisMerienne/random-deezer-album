@@ -3,9 +3,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="/assets/music-notes.png">
   <title>Music Album Randomizer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
   <style>
     /* Add some style to the button */
     #btn {
@@ -36,7 +33,6 @@
     .fancyLink {
     color: black; /* Set text color */
     text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Add bold font weight */
     transition: color 0.3s; /* Add transition effect for color change */
 
     /* Additional styles for a more "fancy" look */
@@ -155,10 +151,10 @@
         var albumTitle = document.createElement("h3");
         albumTitle.id = "album-title";
         albumTitle.textContent = albumInfo.title + " by " + albumInfo.artist_name;
-
-        var albumGenre = document.createElement("h3");
-        albumGenre.id = "album-genre";
-        albumGenre.textContent = "<strong>Genre is : </strong>" + albumInfo.albumInfos.genre;
+         
+        var albumGenre = stringToHtmlElement("<p id='album-genre'><strong>Genre is : </strong>"
+          + albumInfo.albumInfos.genre
+          +"</p>");
 
         // Append elements to the body
         document.body.appendChild(deezerAlbumLink);
@@ -211,6 +207,11 @@
           button.style.border = "none";
         }
       }
+    function stringToHtmlElement(htmlString) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(htmlString, 'text/html');
+      return doc.body.firstChild;
+    }
    
 
   </script>
