@@ -156,10 +156,14 @@
           + albumInfo.albumInfos.genre
           +"</p>");
 
+        var deezerIFrame = stringToHtmlElement("<iframe id='deezer-iframe' scrolling='no' frameborder='0' allowTransparency='true' src='https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=false&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id="
+          + albumInfo.albumInfos.id
+          + "&app_id=1' width='700' height='350'></iframe>");
+
         // Append elements to the body
         document.body.appendChild(deezerAlbumLink);
         document.body.appendChild(spotifyAlbumLink);
-        document.body.appendChild(albumCover);
+        document.body.appendChild(deezerIFrame);
         document.body.appendChild(albumTitle);
         document.body.appendChild(albumGenre);
 
@@ -177,7 +181,7 @@
       }
 
      function removeAlbumElements() {
-        ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre"].forEach(id => {
+        ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre","deezer-iframe"].forEach(id => {
           var element = document.getElementById(id);
           if (element) element.remove();
         });
