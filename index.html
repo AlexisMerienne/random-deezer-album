@@ -193,6 +193,10 @@
   <div id="spinner" style="display: none;text-align: center;flex-direction: column;align-items: center;">
     <h3>Searching some good stuff...</h3>
     <span class="loader"></span>
+    <h3 id="explain-duration" style="display: none;margin :3em;">If it takes time, don't worry, it's normal. The
+      application is
+      hosted on a free service that stops the execution process when it's not in use. So, you're waiting for the
+      application to restart.</h3>
   </div>
   <!-- Add a script tag that contains the javascript function -->
   <!-- Your existing HTML code remains unchanged -->
@@ -202,8 +206,16 @@
       document.getElementById('spinner').style.display = 'flex';
       document.getElementById('btn').style.display = 'none';
       removeAlbumElements();
+
+      const timeoutDuration = 4000;
+
+      const timeoutPromise = new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, timeoutDuration);
+      });
       // Make a CORS-compliant request to your API
-      fetch('https://random-album-api.onrender.com/album', {
+      const fetchPromise = fetch('https://random-album-api.onrender.com/album', {
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -211,12 +223,12 @@
           // Add any additional headers if needed
         },
       })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);s
-          }
-          return response.json();
-        })
+      fetchPromise.then(response => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok (${response.status} ${response.statusText})`); s
+        }
+        return response.json();
+      })
         .then(data => displayAlbum(data))
         .catch(error => {
           console.error('Error fetching random album:', error);
@@ -225,7 +237,12 @@
         .finally(() => {
           // Hide the spinner after the fetch is complete
           document.getElementById('spinner').style.display = 'none';
+          document.getElementById('explain-duration').style.display = 'none';
           document.getElementById('btn').style.display = 'block';
+        });
+      Promise.race([fetchPromise, timeoutPromise])
+        .then(() => {
+          document.getElementById('explain-duration').style.display = 'block';
         });
     }
 
