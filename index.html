@@ -32,6 +32,9 @@
       /* Change the box shadow color */
       box-shadow: 0 0 15px grey;
     }
+    #btn:disabled {
+      cursor: not-allowed;
+    }
 
     .fancyLink {
       color: black;
@@ -156,6 +159,7 @@
   <script>
     function getRandomAlbum() {
       document.getElementById('spinner').style.display = 'block';
+      document.getElementById('btn').disabled = true;
       removeAlbumElements();
       // Make a CORS-compliant request to your API
       fetch('https://random-album-api.onrender.com/album', {
@@ -180,6 +184,7 @@
         .finally(() => {
           // Hide the spinner after the fetch is complete
           document.getElementById('spinner').style.display = 'none';
+          document.getElementById('btn').disabled = false;
         });
     }
 
