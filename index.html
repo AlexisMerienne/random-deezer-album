@@ -190,13 +190,16 @@
   <!-- Add a button with an onclick attribute that calls a javascript function -->
   <button id="btn" onclick="getRandomAlbum()">Discover a random album</button>
   <!-- Add a spinner element -->
-  <span id="spinner" class="loader" style="display: none;"></span>
+  <div id="spinner" style="display: none;text-align: center;flex-direction: column;align-items: center;">
+    <h3>Searching some good stuff...</h3>
+    <span class="loader"></span>
+  </div>
   <!-- Add a script tag that contains the javascript function -->
   <!-- Your existing HTML code remains unchanged -->
 
   <script>
     function getRandomAlbum() {
-      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('spinner').style.display = 'flex';
       document.getElementById('btn').style.display = 'none';
       removeAlbumElements();
       // Make a CORS-compliant request to your API
