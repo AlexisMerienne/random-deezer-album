@@ -32,6 +32,7 @@
       /* Change the box shadow color */
       box-shadow: 0 0 15px grey;
     }
+
     #btn:disabled {
       cursor: not-allowed;
     }
@@ -125,23 +126,55 @@
     }
 
     .loader {
-      border: 16px solid #f3f3f3;
-      /* Light grey */
-      border-top: 16px solid #B560FF;
-      /* Blue */
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      animation: spin 2s linear infinite;
+      position: relative;
+      width: 100px;
+      height: 16px;
     }
 
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
+    .loader:before,
+    .loader:after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 32px 0 #fff;
+      left: 0;
+      top: 0;
+      animation: ballMoveX 1s linear infinite;
+    }
+
+    .loader:after {
+      box-shadow: none;
+      transform-origin: 40px 0;
+      transform: rotate(-153deg);
+      animation: rotateLoader 1s linear infinite;
+    }
+
+    @keyframes rotateLoader {
+
+      0%,
+      10% {
+        transform: rotate(-153deg);
       }
 
+      90%,
       100% {
-        transform: rotate(360deg);
+        transform: rotate(0deg);
+      }
+    }
+
+    @keyframes ballMoveX {
+
+      0%,
+      10% {
+        transform: translateX(0)
+      }
+
+      90%,
+      100% {
+        transform: translateX(32px)
       }
     }
   </style>
@@ -151,8 +184,7 @@
   <!-- Add a button with an onclick attribute that calls a javascript function -->
   <button id="btn" onclick="getRandomAlbum()">Discover a random album</button>
   <!-- Add a spinner element -->
-  <div id="spinner" class="loader" style="display: none;" />
-
+  <span id="spinner" class="loader" style="display: none;"></span>
   <!-- Add a script tag that contains the javascript function -->
   <!-- Your existing HTML code remains unchanged -->
 
