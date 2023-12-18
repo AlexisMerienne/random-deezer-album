@@ -213,14 +213,14 @@
       })
         .then(response => {
           if (!response.ok) {
-            throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);
+            throw new Error(`Network response was not ok (${response.status} ${response.statusText})`);s
           }
           return response.json();
         })
         .then(data => displayAlbum(data))
         .catch(error => {
           console.error('Error fetching random album:', error);
-          alert('Error fetching random album. Please try again.');
+          getRandomAlbum()
         })
         .finally(() => {
           // Hide the spinner after the fetch is complete
