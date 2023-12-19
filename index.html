@@ -109,6 +109,11 @@
       font-family: 'Roboto', sans-serif;
 
     }
+    #links-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
     /* Media query for mobile devices */
     @media screen and (max-width: 600px) {
@@ -133,6 +138,10 @@
         width: 100%;
         /* Make the iframe full-width with some margin */
         height: 200px;
+      }  
+
+      #links-container {
+        flex-direction: column;
       }
     }
 
