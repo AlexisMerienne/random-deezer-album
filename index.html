@@ -38,7 +38,8 @@
     }
 
     .fancyLink {
-      color: black;
+      color: white;
+      background-color: black;
       /* Set text color */
       text-decoration: none;
       /* Remove underline */
@@ -55,8 +56,8 @@
 
     /* Change link color on hover */
     .fancyLink:hover {
-      color: #FF8C00;
       /* Change text color on hover */
+      background-color: rgb(75, 75, 75);
     }
 
     /* Add styles for the "fancyImg" class */
@@ -74,6 +75,10 @@
       color: #00FF00;
       /* Green font color for Spotify link */
       border: none;
+    }
+
+    .spotifyLink:hover {
+      background-color: rgb(75, 75, 75);
     }
 
     .fancyImg {
@@ -198,6 +203,8 @@
       hosted on a free service that stops the execution process when it's not in use. So, you're waiting for the
       application to restart.</h3>
   </div>
+  <div id="main-container"></div>
+  <div id="links-container" style="display: flex;flex-direction: row;align-items: center;"></div>
   <!-- Add a script tag that contains the javascript function -->
   <!-- Your existing HTML code remains unchanged -->
 
@@ -256,8 +263,6 @@
       var deezerAlbumLink = createButton("deezer-link", "deezerLink", albumInfo.deezer_uri, "open on Deezer");
       var spotifyAlbumLink = createButton("spotify-link", "spotifyLink", albumInfo.spotify_uri, "open on Spotify");
 
-
-
       // Create an image element with the album image
       var albumCover = document.createElement("img");
       albumCover.id = "album-cover";
@@ -277,18 +282,20 @@
         + albumInfo.albumInfos.id
         + "&app_id=1' width='700' height='350'></iframe>");
 
+      const sharedText = "Hey ! Listen to this great album ! \nDeezer : " + albumInfo.deezer_uri + "\nSpotify : " + albumInfo.spotify_uri
+      var copyButtonEl = createCopyButton(sharedText)
       // Append elements to the body
 
-      document.body.appendChild(deezerIFrame);
-      document.body.appendChild(deezerAlbumLink);
-      document.body.appendChild(spotifyAlbumLink);
+      document.getElementById("main-container").appendChild(deezerIFrame);
+      document.getElementById("links-container").appendChild(deezerAlbumLink);
+      document.getElementById("links-container").appendChild(spotifyAlbumLink);
+      document.getElementById("links-container").appendChild(copyButtonEl);
 
     }
     function createButton(id, className, href, textContent) {
       var button = document.createElement("a");
       button.id = id;
       button.classList.add("fancyLink");
-      button.classList.add(className);
       button.href = href;
       button.target = "_blank";
       button.textContent = textContent;
@@ -331,6 +338,33 @@
       var parser = new DOMParser();
       var doc = parser.parseFromString(htmlString, 'text/html');
       return doc.body.firstChild;
+    }
+    function createCopyButton(sharedTxt) {
+      var copyButton = document.createElement("button");
+      copyButton.classList.add("fancyLink");
+      copyButton.textContent = "Copy Link to Share"
+      setButtonStyle(copyButton);
+      copyButton.addEventListener("click", function () {
+        // Create a temporary textarea element
+        const textarea = document.createElement("textarea");
+        textarea.value = sharedTxt;
+        document.body.appendChild(textarea);
+
+        // Select the text in the textarea
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Remove the temporary textarea element
+        document.body.removeChild(textarea);
+
+        // Provide some visual feedback (you can customize this part)
+        alert("Link copied to clipboard: " + sharedTxt);
+      });
+      return copyButton;
+
     }
 
 
