@@ -304,7 +304,7 @@
     }
 
     function removeAlbumElements() {
-      ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre", "deezer-iframe"].forEach(id => {
+      ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre", "deezer-iframe","copy-btn"].forEach(id => {
         var element = document.getElementById(id);
         if (element) element.remove();
       });
@@ -341,6 +341,7 @@
     }
     function createCopyButton(sharedTxt) {
       var copyButton = document.createElement("button");
+      copyButton.id = "copy-btn"
       copyButton.classList.add("fancyLink");
       copyButton.textContent = "Copy Link to Share"
       setButtonStyle(copyButton);
