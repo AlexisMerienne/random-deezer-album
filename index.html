@@ -107,7 +107,6 @@
 
     h3 {
       font-family: 'Roboto', sans-serif;
-
     }
     #links-container {
         display: flex;
@@ -121,6 +120,10 @@
         width: 80%;
         /* Make the button full-width */
       }
+      .main-container{
+        width: 100%;
+      }
+
       .fancyLink {
         width: 80%;
         margin: 1em auto;
@@ -203,7 +206,7 @@
 </head>
 
 <body>
-  <button id="btn" onclick="getRandomAlbum()">Discover a random album</button>
+  <a id="btn" onclick="getRandomAlbum()" style="text-align: center;">Discover a random album</a>
   <div id="spinner" style="display: none;text-align: center;flex-direction: column;align-items: center;">
     <h3>Searching some good stuff...</h3>
     <span class="loader"></span>
