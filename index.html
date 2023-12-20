@@ -128,13 +128,11 @@
 
       .deezerLink {
         width: 80%;
-        /* Make the link full-width with some margin */
         margin: 1em auto;
       }
 
       .spotifyLink {
-        width: 80%;
-        /* Make the link full-width with some margin */
+        width: 100%;
         margin: 1em auto;
       }
 
@@ -144,6 +142,7 @@
         height: 200px;
       }  
       #links-container {
+        width: 100%;
         flex-direction: column;
       }
     }
@@ -204,9 +203,7 @@
 </head>
 
 <body>
-  <!-- Add a button with an onclick attribute that calls a javascript function -->
   <button id="btn" onclick="getRandomAlbum()">Discover a random album</button>
-  <!-- Add a spinner element -->
   <div id="spinner" style="display: none;text-align: center;flex-direction: column;align-items: center;">
     <h3>Searching some good stuff...</h3>
     <span class="loader"></span>
@@ -217,8 +214,6 @@
   </div>
   <div id="main-container"></div>
   <div id="links-container"></div>
-  <!-- Add a script tag that contains the javascript function -->
-  <!-- Your existing HTML code remains unchanged -->
 
   <script>
     function getRandomAlbum() {
@@ -352,7 +347,7 @@
       return doc.body.firstChild;
     }
     function createCopyButton(sharedTxt) {
-      var copyButton = document.createElement("button");
+      var copyButton = document.createElement("a");
       copyButton.id = "copy-btn"
       copyButton.classList.add("fancyLink");
       copyButton.textContent = "Copy Link to Share"
