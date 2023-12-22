@@ -393,6 +393,7 @@
           .getElementById("links-container")
           .appendChild(spotifyAlbumLink);
         document.getElementById("links-container").appendChild(copyButtonEl);
+        window.history.pushState({}, "", `?id=${albumInfo.albumInfos.id}`);
       }
       function createButton(id, className, href, textContent) {
         var button = document.createElement("a");
