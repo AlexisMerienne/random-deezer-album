@@ -111,10 +111,11 @@
     h3 {
       font-family: 'Roboto', sans-serif;
     }
+
     #links-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     /* Media query for mobile devices */
@@ -123,7 +124,8 @@
         width: 80%;
         /* Make the button full-width */
       }
-      .main-container{
+
+      .main-container {
         width: 100%;
       }
 
@@ -146,7 +148,8 @@
         width: 100%;
         /* Make the iframe full-width with some margin */
         height: 200px;
-      }  
+      }
+
       #links-container {
         width: 100%;
         flex-direction: column;
@@ -222,6 +225,10 @@
   <div id="links-container"></div>
 
   <script>
+
+    isIdURL(window.location.href)
+
+
     function getRandomAlbum() {
       document.getElementById('spinner').style.display = 'flex';
       document.getElementById('btn').style.display = 'none';
@@ -264,6 +271,57 @@
         .then(() => {
           document.getElementById('explain-duration').style.display = 'block';
         });
+    }
+    function isIdURL(url) {
+      let parsedUrl = new URL(url);
+      let searchParams = parsedUrl.searchParams;
+      let id = searchParams.get("id");
+      if (id) {
+        getAlbumFromId(id)
+      }
+    }
+    function getAlbumFromId(id) {
+      document.getElementById('spinner').style.display = 'flex';
+      document.getElementById('btn').style.display = 'none';
+      removeAlbumElements();
+
+      const timeoutDuration = 4000;
+
+      const timeoutPromise = new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, timeoutDuration);
+      });
+      // Make a CORS-compliant request to your API
+      const fetchPromise = fetch('https://random-album-api.onrender.com/album?id='+id, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any additional headers if needed
+        },
+      })
+      fetchPromise.then(response => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok (${response.status} ${response.statusText})`); s
+        }
+        return response.json();
+      })
+        .then(data => displayAlbum(data))
+        .catch(error => {
+          console.error('Error fetching random album:', error);
+        })
+        .finally(() => {
+          // Hide the spinner after the fetch is complete
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('explain-duration').style.display = 'none';
+          document.getElementById('btn').style.display = 'block';
+        });
+      Promise.race([fetchPromise, timeoutPromise])
+        .then(() => {
+          document.getElementById('explain-duration').style.display = 'block';
+        });
+      
     }
 
 
@@ -317,7 +375,7 @@
     }
 
     function removeAlbumElements() {
-      ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre", "deezer-iframe","copy-btn"].forEach(id => {
+      ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre", "deezer-iframe", "copy-btn"].forEach(id => {
         var element = document.getElementById(id);
         if (element) element.remove();
       });
