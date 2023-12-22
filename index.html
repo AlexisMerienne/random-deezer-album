@@ -116,6 +116,41 @@
         flex-direction: row;
         align-items: center;
       }
+      #searchInputContainer {
+        position: relative;
+        display: inline-block;
+        margin: 1em;
+      }
+
+      #searchInput {
+        padding: 10px;
+        border: 2px solid #b560ff;
+        border-radius: 5px;
+        width: 100%; /* Adjust as needed */
+        outline: none;
+        transition: border-color 0.3s;
+        font-size: 16px;
+        font-family: "Roboto", sans-serif;
+      }
+
+      #searchInput:focus {
+        border-color: #663399;
+      }
+
+      #searchIcon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 20px;
+        color: #b560ff;
+        transition: color 0.3s;
+      }
+
+      #searchIcon:hover {
+        color: #663399;
+      }
 
       /* Media query for mobile devices */
       @media screen and (max-width: 600px) {
@@ -211,6 +246,14 @@
     <a id="btn" onclick="getRandomAlbum()" style="text-align: center"
       >Discover a random album</a
     >
+    <div id="searchInputContainer">
+      <input type="text" id="searchInput" placeholder="Enter album name" />
+      <div id="searchIcon" onclick="getAlbumFromName()">
+        <!-- Magnifying glass icon (you can use an SVG or an image) -->
+        &#128269;
+      </div>
+    </div>
+
     <div
       id="spinner"
       style="
@@ -250,10 +293,15 @@
       function getAlbumFromId(id) {
         makeRequest(`https://random-album-api.onrender.com/album?id=${id}`);
       }
+      function getAlbumFromName() {
+        let name = document.getElementById("searchInput").value;
+        makeRequest(`https://random-album-api.onrender.com/album?name=${name}`);
+      }
 
       function makeRequest(url) {
         document.getElementById("spinner").style.display = "flex";
         document.getElementById("btn").style.display = "none";
+        document.getElementById("searchInputContainer").style.display = "none";
         removeAlbumElements();
 
         const timeoutDuration = 4000;
@@ -282,6 +330,8 @@
             document.getElementById("spinner").style.display = "none";
             document.getElementById("explain-duration").style.display = "none";
             document.getElementById("btn").style.display = "block";
+            document.getElementById("searchInputContainer").style.display =
+              "block";
           });
 
         Promise.race([fetchPromise, timeoutPromise]).then(() => {
