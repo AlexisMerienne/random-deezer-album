@@ -1,447 +1,481 @@
 <html>
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="/assets/music-notes.png">
-  <title>Music Album Randomizer</title>
-  <style>
-    /* Add some style to the button */
-    #btn {
-      font-size: 20px;
-      padding: 10px;
-      background-color: black;
-      border-radius: 7px;
-      color: #B560FF;
-      border: none;
-      /* Add a white border with 5px width */
-      cursor: pointer;
-      margin: 0.7em;
-      font-weight: 700;
-      font-size: 2.125rem;
-      /* Add some transition effects */
-      transition: transform 0.3s, box-shadow 0.3s;
-      /* Add some box shadow */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      /* Additional styles for a more "fancy" look */
-      border-bottom: 2px solid #B560FF;
-      /* Add a bottom border */
-      padding-bottom: 2px;
-    }
-
-    /* Add some hover effects */
-    #btn:hover {
-      /* Make the button bigger */
-      transform: scale(1.1);
-      /* Change the box shadow color */
-      box-shadow: 0 0 15px grey;
-    }
-
-    #btn:disabled {
-      cursor: not-allowed;
-    }
-
-    .fancyLink {
-      color: white;
-      background-color: black;
-      /* Set text color */
-      text-decoration: none;
-      /* Remove underline */
-      transition: color 0.3s;
-      /* Add transition effect for color change */
-
-      /* Additional styles for a more "fancy" look */
-      border-bottom: 2px solid #B560FF;
-      /* Add a bottom border */
-      padding-bottom: 2px;
-      /* Adjust padding for spacing */
-      margin: 2em;
-    }
-
-    /* Change link color on hover */
-    .fancyLink:hover {
-      /* Change text color on hover */
-      background-color: rgb(75, 75, 75);
-    }
-
-    /* Add styles for the "fancyImg" class */
-    .fancyImg {
-      border-radius: 7px;
-      /* Add border-radius for a rounded appearance */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      /* Add box shadow for a subtle effect */
-      margin-top: 10px;
-      /* Add margin to separate the image from the link */
-    }
-
-    .spotifyLink {
-      background-color: black;
-      color: #00FF00;
-      /* Green font color for Spotify link */
-      border: none;
-    }
-
-    .spotifyLink:hover {
-      background-color: rgb(75, 75, 75);
-    }
-
-    .fancyImg {
-      border-radius: 7px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      margin-top: 10px;
-    }
-
-    /* Add some style to the body */
-    body {
-      /* Set the background color */
-      background-color: #a9a6aa;
-      /* Set the margin to zero */
-      margin: 0;
-      /* Set the display to flex */
-      display: flex;
-      /* Align the items to the center */
-      align-items: center;
-      /* Justify the content to the center */
-      justify-content: center;
-      /* Set the height to 100% of the viewport */
-      flex-direction: column;
-      height: 100vh;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    h3 {
-      font-family: 'Roboto', sans-serif;
-    }
-
-    #links-container {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-
-    /* Media query for mobile devices */
-    @media screen and (max-width: 600px) {
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/assets/music-notes.png" />
+    <title>Music Album Randomizer</title>
+    <style>
+      /* Add some style to the button */
       #btn {
-        width: 80%;
-        /* Make the button full-width */
+        font-size: 20px;
+        padding: 10px;
+        background-color: black;
+        border-radius: 7px;
+        color: #b560ff;
+        border: none;
+        display: inline-block;
+        /* Add a white border with 5px width */
+        cursor: pointer;
+        margin: 0.7em;
+        padding: 10px;
+        font-weight: 700;
+        font-size: 2.125rem;
+        /* Add some transition effects */
+        transition: transform 0.3s, box-shadow 0.3s;
+        /* Add some box shadow */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* Additional styles for a more "fancy" look */
+        border-bottom: 2px solid #b560ff;
       }
 
-      .main-container {
-        width: 100%;
+      /* Add some hover effects */
+      #btn:hover {
+        /* Make the button bigger */
+        transform: scale(1.1);
+        /* Change the box shadow color */
+        box-shadow: 0 0 15px grey;
+      }
+
+      #btn:disabled {
+        cursor: not-allowed;
       }
 
       .fancyLink {
-        width: 80%;
-        margin: 1em auto;
+        color: white;
+        background-color: black;
+        /* Set text color */
+        text-decoration: none;
+        /* Remove underline */
+        transition: color 0.3s;
+        /* Add transition effect for color change */
+
+        /* Additional styles for a more "fancy" look */
+        border-bottom: 2px solid #b560ff;
+        /* Add a bottom border */
+        padding-bottom: 2px;
+        /* Adjust padding for spacing */
+        margin: 2em;
       }
 
-      .deezerLink {
-        width: 80%;
-        margin: 1em auto;
+      /* Change link color on hover */
+      .fancyLink:hover {
+        /* Change text color on hover */
+        background-color: rgb(75, 75, 75);
+      }
+
+      /* Add styles for the "fancyImg" class */
+      .fancyImg {
+        border-radius: 7px;
+        /* Add border-radius for a rounded appearance */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* Add box shadow for a subtle effect */
+        margin-top: 10px;
+        /* Add margin to separate the image from the link */
       }
 
       .spotifyLink {
-        width: 100%;
-        margin: 1em auto;
+        background-color: black;
+        color: #00ff00;
+        /* Green font color for Spotify link */
+        border: none;
       }
 
-      #deezer-iframe {
-        width: 100%;
-        /* Make the iframe full-width with some margin */
-        height: 200px;
+      .spotifyLink:hover {
+        background-color: rgb(75, 75, 75);
+      }
+
+      .fancyImg {
+        border-radius: 7px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin-top: 10px;
+      }
+
+      /* Add some style to the body */
+      body {
+        /* Set the background color */
+        background-color: #a9a6aa;
+        /* Set the margin to zero */
+        margin: 0;
+        /* Set the display to flex */
+        display: flex;
+        /* Align the items to the center */
+        align-items: center;
+        /* Justify the content to the center */
+        justify-content: center;
+        /* Set the height to 100% of the viewport */
+        flex-direction: column;
+        height: 100vh;
+        font-family: "Roboto", sans-serif;
+      }
+
+      h3 {
+        font-family: "Roboto", sans-serif;
       }
 
       #links-container {
-        width: 100%;
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
       }
-    }
 
-    .loader {
-      position: relative;
-      width: 100px;
-      height: 16px;
-    }
+      /* Media query for mobile devices */
+      @media screen and (max-width: 600px) {
+        #btn {
+          width: 80%;
+          /* Make the button full-width */
+        }
 
-    .loader:before,
-    .loader:after {
-      content: "";
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: black;
-      box-shadow: 32px 0 black;
-      left: 0;
-      top: 0;
-      animation: ballMoveX 1s linear infinite;
-    }
+        .main-container {
+          width: 100%;
+        }
 
-    .loader:after {
-      box-shadow: none;
-      transform-origin: 40px 0;
-      transform: rotate(-153deg);
-      animation: rotateLoader 1s linear infinite;
-    }
+        .fancyLink {
+          width: 80%;
+          margin: 1em auto;
+        }
 
-    @keyframes rotateLoader {
+        .deezerLink {
+          width: 80%;
+          margin: 1em auto;
+        }
 
-      0%,
-      10% {
+        .spotifyLink {
+          width: 100%;
+          margin: 1em auto;
+        }
+
+        #deezer-iframe {
+          width: 100%;
+          /* Make the iframe full-width with some margin */
+          height: 200px;
+        }
+        #links-container {
+          width: 100%;
+          flex-direction: column;
+        }
+      }
+
+      .loader {
+        position: relative;
+        width: 100px;
+        height: 16px;
+      }
+
+      .loader:before,
+      .loader:after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: black;
+        box-shadow: 32px 0 black;
+        left: 0;
+        top: 0;
+        animation: ballMoveX 1s linear infinite;
+      }
+
+      .loader:after {
+        box-shadow: none;
+        transform-origin: 40px 0;
         transform: rotate(-153deg);
+        animation: rotateLoader 1s linear infinite;
       }
 
-      90%,
-      100% {
-        transform: rotate(0deg);
-      }
-    }
-
-    @keyframes ballMoveX {
-
-      0%,
-      10% {
-        transform: translateX(0)
-      }
-
-      90%,
-      100% {
-        transform: translateX(32px)
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <a id="btn" onclick="getRandomAlbum()" style="text-align: center;">Discover a random album</a>
-  <div id="spinner" style="display: none;text-align: center;flex-direction: column;align-items: center;">
-    <h3>Searching some good stuff...</h3>
-    <span class="loader"></span>
-    <h3 id="explain-duration" style="display: none;margin :3em;">If it takes time, don't worry, it's normal. The
-      application is
-      hosted on a free service that stops the execution process when it's not in use. So, you're waiting for the
-      application to restart.</h3>
-  </div>
-  <div id="main-container"></div>
-  <div id="links-container"></div>
-
-  <script>
-
-    isIdURL(window.location.href)
-
-
-    function getRandomAlbum() {
-      document.getElementById('spinner').style.display = 'flex';
-      document.getElementById('btn').style.display = 'none';
-      removeAlbumElements();
-
-      const timeoutDuration = 4000;
-
-      const timeoutPromise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, timeoutDuration);
-      });
-      // Make a CORS-compliant request to your API
-      const fetchPromise = fetch('https://random-album-api.onrender.com/album', {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any additional headers if needed
-        },
-      })
-      fetchPromise.then(response => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok (${response.status} ${response.statusText})`); s
+      @keyframes rotateLoader {
+        0%,
+        10% {
+          transform: rotate(-153deg);
         }
-        return response.json();
-      })
-        .then(data => displayAlbum(data))
-        .catch(error => {
-          console.error('Error fetching random album:', error);
-          getRandomAlbum()
-        })
-        .finally(() => {
-          // Hide the spinner after the fetch is complete
-          document.getElementById('spinner').style.display = 'none';
-          document.getElementById('explain-duration').style.display = 'none';
-          document.getElementById('btn').style.display = 'block';
-        });
-      Promise.race([fetchPromise, timeoutPromise])
-        .then(() => {
-          document.getElementById('explain-duration').style.display = 'block';
-        });
-    }
-    function isIdURL(url) {
-      let parsedUrl = new URL(url);
-      let searchParams = parsedUrl.searchParams;
-      let id = searchParams.get("id");
-      if (id) {
-        getAlbumFromId(id)
-      }
-    }
-    function getAlbumFromId(id) {
-      document.getElementById('spinner').style.display = 'flex';
-      document.getElementById('btn').style.display = 'none';
-      removeAlbumElements();
 
-      const timeoutDuration = 4000;
-
-      const timeoutPromise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, timeoutDuration);
-      });
-      // Make a CORS-compliant request to your API
-      const fetchPromise = fetch('https://random-album-api.onrender.com/album?id='+id, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any additional headers if needed
-        },
-      })
-      fetchPromise.then(response => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok (${response.status} ${response.statusText})`); s
+        90%,
+        100% {
+          transform: rotate(0deg);
         }
-        return response.json();
-      })
-        .then(data => displayAlbum(data))
-        .catch(error => {
-          console.error('Error fetching random album:', error);
-        })
-        .finally(() => {
-          // Hide the spinner after the fetch is complete
-          document.getElementById('spinner').style.display = 'none';
-          document.getElementById('explain-duration').style.display = 'none';
-          document.getElementById('btn').style.display = 'block';
-        });
-      Promise.race([fetchPromise, timeoutPromise])
-        .then(() => {
-          document.getElementById('explain-duration').style.display = 'block';
-        });
-      
-    }
-
-
-    // Define the callback function for JSONP
-    function displayAlbum(albumInfo) {
-      // Remove existing album elements
-
-
-      // Create an anchor element with the album link
-      var deezerAlbumLink = createButton("deezer-link", "deezerLink", albumInfo.deezer_uri, "open on Deezer");
-      var spotifyAlbumLink = createButton("spotify-link", "spotifyLink", albumInfo.spotify_uri, "open on Spotify");
-
-      // Create an image element with the album image
-      var albumCover = document.createElement("img");
-      albumCover.id = "album-cover";
-      albumCover.classList.add("fancyImg");
-      albumCover.src = albumInfo.cover_medium;
-      albumCover.alt = albumInfo.title;
-
-      var albumTitle = document.createElement("h3");
-      albumTitle.id = "album-title";
-      albumTitle.textContent = albumInfo.title + " by " + albumInfo.artist_name;
-
-      var albumGenre = stringToHtmlElement("<p id='album-genre'><strong>Genre is : </strong>"
-        + albumInfo.albumInfos.genre
-        + "</p>");
-
-      var deezerIFrame = stringToHtmlElement("<iframe id='deezer-iframe' scrolling='no' frameborder='0' allowTransparency='true' src='https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=false&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id="
-        + albumInfo.albumInfos.id
-        + "&app_id=1' width='700' height='350'></iframe>");
-
-      const sharedText = "Hey ! Listen to this great album ! \n" + window.location.href
-      var copyButtonEl = createCopyButton(sharedText)
-      // Append elements to the body
-
-      document.getElementById("main-container").appendChild(deezerIFrame);
-      document.getElementById("links-container").appendChild(deezerAlbumLink);
-      document.getElementById("links-container").appendChild(spotifyAlbumLink);
-      document.getElementById("links-container").appendChild(copyButtonEl);
-
-    }
-    function createButton(id, className, href, textContent) {
-      var button = document.createElement("a");
-      button.id = id;
-      button.classList.add("fancyLink");
-      button.href = href;
-      button.target = "_blank";
-      button.textContent = textContent;
-      setButtonStyle(button);
-      return button;
-    }
-
-    function removeAlbumElements() {
-      ["deezer-link", "spotify-link", "album-cover", "album-title", "album-genre", "deezer-iframe", "copy-btn"].forEach(id => {
-        var element = document.getElementById(id);
-        if (element) element.remove();
-      });
-    }
-    function setButtonStyle(button) {
-      // Set common button styles
-      button.style.fontSize = "20px";
-      button.style.padding = "10px";
-      button.style.borderRadius = "7px";
-      button.style.cursor = "pointer";
-      button.style.margin = "0.7em";
-      button.style.fontWeight = "700";
-      button.style.transition = "transform 0.3s, box-shadow 0.3s";
-      button.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
-      button.style.textDecoration = "none";
-      button.style.display = "inline-block";
-      button.style.textAlign = "center";
-
-      // Set unique styles based on className
-      if (button.classList.contains("deezerLink")) {
-        button.style.backgroundColor = "black";
-        button.style.color = "#B560FF";
-        button.style.border = "none";
-      } else if (button.classList.contains("spotifyLink")) {
-        button.style.backgroundColor = "black";
-        button.style.color = "#00FF00"; // Green font color for Spotify link
-        button.style.border = "none";
       }
-    }
-    function stringToHtmlElement(htmlString) {
-      var parser = new DOMParser();
-      var doc = parser.parseFromString(htmlString, 'text/html');
-      return doc.body.firstChild;
-    }
-    function createCopyButton(sharedTxt) {
-      var copyButton = document.createElement("a");
-      copyButton.id = "copy-btn"
-      copyButton.classList.add("fancyLink");
-      copyButton.textContent = "Copy Link to Share"
-      setButtonStyle(copyButton);
-      copyButton.addEventListener("click", function () {
-        // Create a temporary textarea element
-        const textarea = document.createElement("textarea");
-        textarea.value = sharedTxt;
-        document.body.appendChild(textarea);
 
-        // Select the text in the textarea
-        textarea.select();
-        textarea.setSelectionRange(0, textarea.value.length);
+      @keyframes ballMoveX {
+        0%,
+        10% {
+          transform: translateX(0);
+        }
 
-        // Copy the selected text to the clipboard
-        document.execCommand("copy");
+        90%,
+        100% {
+          transform: translateX(32px);
+        }
+      }
+    </style>
+  </head>
 
-        // Remove the temporary textarea element
-        document.body.removeChild(textarea);
+  <body>
+    <a id="btn" onclick="getRandomAlbum()" style="text-align: center"
+      >Discover a random album</a
+    >
+    <div
+      id="spinner"
+      style="
+        display: none;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+      "
+    >
+      <h3>Searching some good stuff...</h3>
+      <span class="loader"></span>
+      <h3 id="explain-duration" style="display: none; margin: 3em">
+        If it takes time, don't worry, it's normal. The application is hosted on
+        a free service that stops the execution process when it's not in use.
+        So, you're waiting for the application to restart.
+      </h3>
+    </div>
+    <div id="main-container"></div>
+    <div id="links-container"></div>
 
-        // Provide some visual feedback (you can customize this part)
-        alert("Link copied to clipboard: " + sharedTxt);
-      });
-      return copyButton;
+    <script>
+      isIdURL(window.location.href);
 
-    }
+      function getRandomAlbum() {
+        document.getElementById("spinner").style.display = "flex";
+        document.getElementById("btn").style.display = "none";
+        removeAlbumElements();
 
+        const timeoutDuration = 4000;
 
-  </script>
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, timeoutDuration);
+        });
+        // Make a CORS-compliant request to your API
+        const fetchPromise = fetch(
+          "https://random-album-api.onrender.com/album",
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+          }
+        );
+        fetchPromise
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Network response was not ok (${response.status} ${response.statusText})`
+              );
+              s;
+            }
+            return response.json();
+          })
+          .then((data) => displayAlbum(data))
+          .catch((error) => {
+            console.error("Error fetching random album:", error);
+            getRandomAlbum();
+          })
+          .finally(() => {
+            // Hide the spinner after the fetch is complete
+            document.getElementById("spinner").style.display = "none";
+            document.getElementById("explain-duration").style.display = "none";
+            document.getElementById("btn").style.display = "block";
+          });
+        Promise.race([fetchPromise, timeoutPromise]).then(() => {
+          document.getElementById("explain-duration").style.display = "block";
+        });
+      }
+      function isIdURL(url) {
+        let parsedUrl = new URL(url);
+        let searchParams = parsedUrl.searchParams;
+        let id = searchParams.get("id");
+        if (id) {
+          getAlbumFromId(id);
+        }
+      }
+      function getAlbumFromId(id) {
+        document.getElementById("spinner").style.display = "flex";
+        document.getElementById("btn").style.display = "none";
+        removeAlbumElements();
 
-</body>
+        const timeoutDuration = 4000;
 
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, timeoutDuration);
+        });
+        // Make a CORS-compliant request to your API
+        const fetchPromise = fetch(
+          "https://random-album-api.onrender.com/album?id=" + id,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json",
+              // Add any additional headers if needed
+            },
+          }
+        );
+        fetchPromise
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Network response was not ok (${response.status} ${response.statusText})`
+              );
+              s;
+            }
+            return response.json();
+          })
+          .then((data) => displayAlbum(data))
+          .catch((error) => {
+            console.error("Error fetching random album:", error);
+          })
+          .finally(() => {
+            // Hide the spinner after the fetch is complete
+            document.getElementById("spinner").style.display = "none";
+            document.getElementById("explain-duration").style.display = "none";
+            document.getElementById("btn").style.display = "block";
+          });
+        Promise.race([fetchPromise, timeoutPromise]).then(() => {
+          document.getElementById("explain-duration").style.display = "block";
+        });
+      }
+
+      // Define the callback function for JSONP
+      function displayAlbum(albumInfo) {
+        // Remove existing album elements
+
+        // Create an anchor element with the album link
+        var deezerAlbumLink = createButton(
+          "deezer-link",
+          "deezerLink",
+          albumInfo.deezer_uri,
+          "open on Deezer"
+        );
+        var spotifyAlbumLink = createButton(
+          "spotify-link",
+          "spotifyLink",
+          albumInfo.spotify_uri,
+          "open on Spotify"
+        );
+
+        // Create an image element with the album image
+        var albumCover = document.createElement("img");
+        albumCover.id = "album-cover";
+        albumCover.classList.add("fancyImg");
+        albumCover.src = albumInfo.cover_medium;
+        albumCover.alt = albumInfo.title;
+
+        var albumTitle = document.createElement("h3");
+        albumTitle.id = "album-title";
+        albumTitle.textContent =
+          albumInfo.title + " by " + albumInfo.artist_name;
+
+        var albumGenre = stringToHtmlElement(
+          "<p id='album-genre'><strong>Genre is : </strong>" +
+            albumInfo.albumInfos.genre +
+            "</p>"
+        );
+
+        var deezerIFrame = stringToHtmlElement(
+          "<iframe id='deezer-iframe' scrolling='no' frameborder='0' allowTransparency='true' src='https://www.deezer.com/plugins/player?format=classic&autoplay=false&playlist=false&width=700&height=350&color=007FEB&layout=dark&size=medium&type=album&id=" +
+            albumInfo.albumInfos.id +
+            "&app_id=1' width='700' height='350'></iframe>"
+        );
+
+        const sharedText =
+          "Hey ! Listen to this great album ! \n" + window.location.href;
+        var copyButtonEl = createCopyButton(sharedText);
+        // Append elements to the body
+
+        document.getElementById("main-container").appendChild(deezerIFrame);
+        document.getElementById("links-container").appendChild(deezerAlbumLink);
+        document
+          .getElementById("links-container")
+          .appendChild(spotifyAlbumLink);
+        document.getElementById("links-container").appendChild(copyButtonEl);
+      }
+      function createButton(id, className, href, textContent) {
+        var button = document.createElement("a");
+        button.id = id;
+        button.classList.add("fancyLink");
+        button.href = href;
+        button.target = "_blank";
+        button.textContent = textContent;
+        setButtonStyle(button);
+        return button;
+      }
+
+      function removeAlbumElements() {
+        [
+          "deezer-link",
+          "spotify-link",
+          "album-cover",
+          "album-title",
+          "album-genre",
+          "deezer-iframe",
+          "copy-btn",
+        ].forEach((id) => {
+          var element = document.getElementById(id);
+          if (element) element.remove();
+        });
+      }
+      function setButtonStyle(button) {
+        // Set common button styles
+        button.style.fontSize = "20px";
+        button.style.padding = "10px";
+        button.style.borderRadius = "7px";
+        button.style.cursor = "pointer";
+        button.style.margin = "0.7em";
+        button.style.fontWeight = "700";
+        button.style.transition = "transform 0.3s, box-shadow 0.3s";
+        button.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+        button.style.textDecoration = "none";
+        button.style.display = "inline-block";
+        button.style.textAlign = "center";
+
+        // Set unique styles based on className
+        if (button.classList.contains("deezerLink")) {
+          button.style.backgroundColor = "black";
+          button.style.color = "#B560FF";
+          button.style.border = "none";
+        } else if (button.classList.contains("spotifyLink")) {
+          button.style.backgroundColor = "black";
+          button.style.color = "#00FF00"; // Green font color for Spotify link
+          button.style.border = "none";
+        }
+      }
+      function stringToHtmlElement(htmlString) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(htmlString, "text/html");
+        return doc.body.firstChild;
+      }
+      function createCopyButton(sharedTxt) {
+        var copyButton = document.createElement("a");
+        copyButton.id = "copy-btn";
+        copyButton.classList.add("fancyLink");
+        copyButton.textContent = "Copy Link to Share";
+        setButtonStyle(copyButton);
+        copyButton.addEventListener("click", function () {
+          // Create a temporary textarea element
+          const textarea = document.createElement("textarea");
+          textarea.value = sharedTxt;
+          document.body.appendChild(textarea);
+
+          // Select the text in the textarea
+          textarea.select();
+          textarea.setSelectionRange(0, textarea.value.length);
+
+          // Copy the selected text to the clipboard
+          document.execCommand("copy");
+
+          // Remove the temporary textarea element
+          document.body.removeChild(textarea);
+
+          // Provide some visual feedback (you can customize this part)
+          alert("Link copied to clipboard: " + sharedTxt);
+        });
+        return copyButton;
+      }
+    </script>
+  </body>
 </html>
