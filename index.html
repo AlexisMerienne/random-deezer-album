@@ -1,10 +1,21 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="assets/music-notes.png" />
+    <link rel="icon" type="image/x-icon" href="assets/icon.png" />
     <title>Music Album Randomizer</title>
     <style>
-      /* Add some style to the button */
+      body {
+        background-color: #a9a6aa;
+        font-family: "Roboto", sans-serif;
+      }
+      #body-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-bottom: 2em;
+      }
+
       #btn {
         font-size: 20px;
         padding: 10px;
@@ -25,6 +36,32 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         /* Additional styles for a more "fancy" look */
         border-bottom: 2px solid #b560ff;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        padding: 10px;
+        height: 30px;
+        background-color: #333;
+        color: #b560ff;
+        border-radius: 7px;
+      }
+
+      #header-icon {
+        width: 30px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        cursor: pointer;
+      }
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #333;
+        color: #fff;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border-radius: 7px;
       }
 
       /* Add some hover effects */
@@ -88,25 +125,6 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         margin-top: 10px;
       }
-
-      /* Add some style to the body */
-      body {
-        /* Set the background color */
-        background-color: #a9a6aa;
-        /* Set the margin to zero */
-        margin: 0;
-        /* Set the display to flex */
-        display: flex;
-        /* Align the items to the center */
-        align-items: center;
-        /* Justify the content to the center */
-        justify-content: center;
-        /* Set the height to 100% of the viewport */
-        flex-direction: column;
-        height: 100vh;
-        font-family: "Roboto", sans-serif;
-      }
-
       h3 {
         font-family: "Roboto", sans-serif;
       }
@@ -118,7 +136,7 @@
       }
       #searchInputContainer {
         position: relative;
-        display: inline-block;
+        display: flex;
         margin: 1em;
       }
 
@@ -156,10 +174,9 @@
       @media screen and (max-width: 600px) {
         #btn {
           width: 80%;
-          /* Make the button full-width */
         }
 
-        .main-container {
+        #main-container {
           width: 100%;
         }
 
@@ -180,7 +197,6 @@
 
         #deezer-iframe {
           width: 100%;
-          /* Make the iframe full-width with some margin */
           height: 200px;
         }
         #links-container {
@@ -243,39 +259,57 @@
   </head>
 
   <body>
-    <a id="btn" onclick="getRandomAlbum()" style="text-align: center"
-      >Discover a random album</a
-    >
-    <div id="searchInputContainer">
-      <input type="text" id="searchInput" placeholder="Enter album name" />
-      <div id="searchIcon" onclick="getAlbumFromName()">
-        <!-- Magnifying glass icon (you can use an SVG or an image) -->
-        &#128269;
+    <header>
+      <a
+        href="https://alexismerienne.github.io/random-deezer-album/"
+        target="_blank"
+      >
+        <img src="assets/icon.png" alt="Icon" id="header-icon" />
+      </a>
+      <h2 style="margin-left: 1em">Music Album Randomizer</h2>
+    </header>
+    <div id="body-container">
+      <a id="btn" onclick="getRandomAlbum()" style="text-align: center"
+        >Discover a random album</a
+      >
+      <div id="searchInputContainer">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Or search an album name"
+        />
+        <div id="searchIcon" onclick="getAlbumFromName()">
+          <!-- Magnifying glass icon (you can use an SVG or an image) -->
+          &#128269;
+        </div>
       </div>
-    </div>
 
-    <div
-      id="spinner"
-      style="
-        display: none;
-        text-align: center;
-        flex-direction: column;
-        align-items: center;
-      "
-    >
-      <h3>Searching some good stuff...</h3>
-      <span class="loader"></span>
-      <h3 id="explain-duration" style="display: none; margin: 3em">
-        If it takes time, don't worry, it's normal. The application is hosted on
-        a free service that stops the execution process when it's not in use.
-        So, you're waiting for the application to restart.
-      </h3>
+      <div
+        id="spinner"
+        style="
+          display: none;
+          text-align: center;
+          flex-direction: column;
+          align-items: center;
+        "
+      >
+        <h3>Searching some good stuff...</h3>
+        <span class="loader"></span>
+        <h3 id="explain-duration" style="display: none; margin: 3em">
+          If it takes time, don't worry, it's normal. The application is hosted
+          on a free service that stops the execution process when it's not in
+          use. So, you're waiting for the application to restart.
+        </h3>
+      </div>
+      <div id="main-container"></div>
+      <div id="links-container"></div>
     </div>
-    <div id="main-container"></div>
-    <div id="links-container"></div>
+    <footer>&copy; Alexis Merienne - <span id="currentYear"></span></footer>
 
     <script>
       isIdURL(window.location.href);
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
 
       function getRandomAlbum() {
         makeRequest("https://random-album-api.onrender.com/album");
