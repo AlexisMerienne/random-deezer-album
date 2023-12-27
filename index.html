@@ -40,10 +40,11 @@
       header {
         display: flex;
         align-items: center;
+        justify-content: space-between; /* Added to separate icon, title, and version */
         flex-direction: row;
         padding: 10px;
         height: 30px;
-        background-color: #333;
+        background-color: black;
         color: #b560ff;
         border-radius: 7px;
       }
@@ -53,6 +54,9 @@
         height: auto; /* Maintain aspect ratio */
         cursor: pointer;
       }
+      #version-info {
+        margin-right: 1em;
+      }
       footer {
         text-align: center;
         padding: 10px;
@@ -61,7 +65,6 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        border-radius: 7px;
       }
 
       /* Add some hover effects */
@@ -175,6 +178,9 @@
         #btn {
           width: 80%;
         }
+        header {
+          display: none;
+        }
 
         #main-container {
           width: 100%;
@@ -264,6 +270,7 @@
         <img src="assets/icon.png" alt="Icon" id="header-icon" />
       </a>
       <h2 style="margin-left: 1em">Music Album Randomizer</h2>
+      <span id="version-info">V.1.0.0</span>
     </header>
     <div id="body-container">
       <a id="btn" onclick="getRandomAlbum()" style="text-align: center"
